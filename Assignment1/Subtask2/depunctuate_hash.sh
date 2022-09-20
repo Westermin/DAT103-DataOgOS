@@ -1,44 +1,62 @@
 #! /usr/bin/sh
-
-echo "Enter some text "
-
-read input
-
-declare -A animals
-animals=( [","]="" ["."]="")
-declare -A animals=( ["moo"]="cow" ["woof"]="dog")
-animals_moo=cow; sound=moo; i="animals_$sound"; echo "${!i}"
-cow
-$ sound=moo; animal=cow; declare "animals_$sound=$animal"; echo "$animals_moo"
-cow
-# Set a value:
-declare "array_$index=$value"
-
-$ sound=moo
-$ animal=cow
-$ declare "animals_$sound=$animal"
-$ arrayGet animals "$sound"
-cow
+#echo "Enter some text "
 
 # Get a value:
+
+file=hello.txt
+
+declare -i LINE=1
+declare -l CHAR='p'
+getPos(){
+  declare -a array
+  declare -i pos=0
+while read -n1 c; do
+    #echo "$c"
+
+  pos=pos+1
+  if  [ "$c" = "," ] || [ "$c" = '.' ]
+  then
+    ##hashmap
+      c=" "
+      echo "fant en: $pos"
+
+      array+=($pos)
+  fi
+
+
+  echo "$pos"
+done < $file
+echo hello.txt | tr -s '[:punct:]' ' ' >> hello.txt
+
+for i in ${array[@]}
+do
+  echo "$i"
+
+  cat hello.txt | sed -E "${LINE}s/^.{$i}/&$CHAR/" > output.txt
+done
+
+#awk -F: 'NR == 2 {print $2}' "hello.txt"
+
+}
+
+
 arrayGet() {
     local array=$1 index=$2
     local i="${array}_$index"
     printf '%s' "${!i}"
 }
-spaghetiFunction()
-{
-  touch maniplulateme.txt
-  echo "$@" >> maniplulateme.txt
-}
+##spaghetiFunction()
+#{
+#  touch maniplulateme.txt
+#  echo "$@" >> maniplulateme.txt
+#}
 
-functionStripAndPrint()
-{
-  rm hello.txt
-  echo "$@" | tr -s '[:punct:]' '\n' >> hello.txt
-}
+#functionStripAndPrint()
+#{
+#  rm hello.txt
+#  echo "$@" | tr -s '[:punct:]' '\n' >> hello.txt
+#}
 
-functionStripAndPrint "$input"
-spaghetiFunction "$input"
+getPos "$input"
 
-cat hello.txt
+read input
