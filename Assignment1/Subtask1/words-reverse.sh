@@ -1,9 +1,14 @@
 #!/bin/bash
 
-mktemp -d
+tmp_dir=$(mktemp -d -t ci-$(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXXX)
+ 
+echo $tmp_dir
 
-read depunctuation.sh
+dep=sh depunctuation.sh temp_dir
 
+rep=sh repunctuate.sh dep
+
+echo $rep 
 
 #read s
 #strlen=${#s}
@@ -13,11 +18,7 @@ read depunctuation.sh
 #done
 #echo "Original String : $s"
 #echo "Reversed String : $revstr"
-
 #read test
 
-function cleanup {
-  rm -rf "$WORK_DIR"
-  echo "Deleted temp working directory $WORK_DIR"
-}
-
+rm -rf "$temp_dir"
+echo "Deleted temp working directory $temp_dir"
